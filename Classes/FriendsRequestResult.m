@@ -79,9 +79,10 @@
 		aPerson.identifier = uid;
 		aPerson.firstName = first_name;
 		aPerson.lastName = last_name;
-		aPerson.birthday = birthday;
 		aPerson.knownBirthYear = knownBirthYear;
 		
+        // Must be the last one to set
+        [aPerson setGregorianBirthday:birthday];
 		
 		if (pic_url != nil && (NSNull*) pic_url != [NSNull null]) {//must test NSNull
             aPerson.imageURL = pic_url;
