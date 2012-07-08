@@ -237,6 +237,24 @@ static FacebookUtils *sharedInstance;
 }
 
 /*
+ * Upload photo to album
+ */
++ (void) uploadPhotoDataToAlbum: (NSData*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks {
+    SBJSON *jsonWriter = [[SBJSON new] autorelease];
+    
+    NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
+    // The "to" parameter targets the post to a friend
+    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:params];
+    [allParams setObject:image forKey:@"picture"];
+    [allParams setObject:actionLinksStr forKey:@"actions"];
+    
+    [[sharedInstance facebook] requestWithGraphPath:@"me/photos"
+                                          andParams:allParams
+                                      andHttpMethod:@"POST"
+                                        andDelegate:delegate];
+}
+
+/*
  * Get current permissions
  */
 + (void) getCurrentPermissions: (id<FBRequestDelegate>) delegate {    
@@ -250,6 +268,33 @@ static FacebookUtils *sharedInstance;
 + (void) getImageMetaData: (NSString*) imageId delegate:(id<FBRequestDelegate>) delegate {    
     [[sharedInstance facebook] requestWithGraphPath:imageId
                                         andDelegate:delegate];
+}
+
+
+/*
+ * Helper method for posting photo.
+ */
++(NSURLRequest *) postRequestWithURL:(NSString *)url data: (NSData *)data   
+                            fileName: (NSString*)fileName
+{
+    NSMutableURLRequest *urlRequest = [[[NSMutableURLRequest alloc] init] autorelease];
+    [urlRequest setURL:[NSURL URLWithString:url]];
+    
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    NSString *myboundary = [NSString stringWithString:@"---------------------------14737809831466499882746641449"];
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",myboundary];
+    [urlRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    NSMutableData *postData = [NSMutableData data];
+    [postData appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", myboundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"source\"; filename=\"%@\"\r\n", fileName]dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[[NSString stringWithString:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[NSData dataWithData:data]];
+    [postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", myboundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [urlRequest setHTTPBody:postData];
+    return urlRequest;
 }
 
 

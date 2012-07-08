@@ -49,6 +49,11 @@ typedef enum {
 + (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks;
 
 /*
+ * Upload photo data to album
+ */
++ (void) uploadPhotoDataToAlbum: (NSData*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks;
+
+/*
  * Get current permissions
  */
 + (void) getCurrentPermissions: (id<FBRequestDelegate>) delegate;
@@ -57,4 +62,10 @@ typedef enum {
  * Get image meta data
  */
 + (void) getImageMetaData: (NSString*) imageId delegate:(id<FBRequestDelegate>) delegate;
+
+/*
+ * Helper method for posting photo
+ */
++(NSURLRequest *) postRequestWithURL:(NSString *)url data: (NSData *)data   
+                            fileName: (NSString*)fileName;
 @end
