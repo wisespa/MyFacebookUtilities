@@ -226,7 +226,7 @@ static FacebookUtils *sharedInstance;
     
     NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
     // The "to" parameter targets the post to a friend
-    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:params];
+    NSMutableDictionary *allParams = [[NSMutableDictionary alloc]initWithDictionary:params];//no autorelease, facebook SDK will release it
     [allParams setObject:image forKey:@"picture"];
     [allParams setObject:actionLinksStr forKey:@"actions"];
 
@@ -297,5 +297,8 @@ static FacebookUtils *sharedInstance;
     return urlRequest;
 }
 
-
++(void) getUserInfo: (id<FBRequestDelegate>) delegate {
+    [[sharedInstance facebook] requestWithGraphPath:@"me"
+                                        andDelegate:delegate];
+}
 @end

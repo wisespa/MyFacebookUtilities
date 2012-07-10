@@ -18,6 +18,7 @@ typedef enum {
     FACEBOOK_PERMISSIONS = 4,
     FACEBOOK_LOGIN = 5,
     FACEBOOK_AUTHORIZE = 6,
+    FACEBOOK_USERINFO = 7,
     FACEBOOK_OP_NONE = 100
 } FACEBOOK_OP;
 
@@ -68,4 +69,6 @@ typedef enum {
  */
 +(NSURLRequest *) postRequestWithURL:(NSString *)url data: (NSData *)data   
                             fileName: (NSString*)fileName;
+
++(void) getUserInfo: (id<FBRequestDelegate>) delegate;
 @end
