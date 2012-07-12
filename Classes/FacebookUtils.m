@@ -221,6 +221,27 @@ static FacebookUtils *sharedInstance;
 /*
  * Upload photo to album
  */
++ (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks albumId:(NSString*) albumId{
+    if (!albumId) {
+        return;
+    }
+    SBJSON *jsonWriter = [[SBJSON new] autorelease];
+    
+    NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
+    // The "to" parameter targets the post to a friend
+    NSMutableDictionary *allParams = [[NSMutableDictionary alloc]initWithDictionary:params];//no autorelease, facebook SDK will release it
+    [allParams setObject:image forKey:@"picture"];
+    [allParams setObject:actionLinksStr forKey:@"actions"];
+    
+    [[sharedInstance facebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/photos", albumId]
+                                          andParams:allParams
+                                      andHttpMethod:@"POST"
+                                        andDelegate:delegate];
+}
+
+/*
+ * Upload photo to album
+ */
 + (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks {
     SBJSON *jsonWriter = [[SBJSON new] autorelease];
     
@@ -244,11 +265,28 @@ static FacebookUtils *sharedInstance;
     
     NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
     // The "to" parameter targets the post to a friend
-    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:params];
+    NSMutableDictionary *allParams = [[NSMutableDictionary alloc]initWithDictionary:params];//no autorelease, facebook SDK will release it
     [allParams setObject:image forKey:@"picture"];
     [allParams setObject:actionLinksStr forKey:@"actions"];
     
     [[sharedInstance facebook] requestWithGraphPath:@"me/photos"
+                                          andParams:allParams
+                                      andHttpMethod:@"POST"
+                                        andDelegate:delegate];
+}
+
++(void) createAlbum:(id<FBRequestDelegate>) delegate name:(NSString*) name desc:(NSString*) desc location:(NSString*) location
+{    
+    NSMutableDictionary *allParams = [[NSMutableDictionary alloc] init];//no autorelease, facebook SDK will release it
+    [allParams setObject:name forKey:@"name"];
+    if (desc != nil) {
+        [allParams setObject:desc forKey:@"message"];
+    }
+    if (location != nil) {
+        [allParams setObject:location forKey:@"location"];
+    }
+
+    [[sharedInstance facebook] requestWithGraphPath:@"me/albums"
                                           andParams:allParams
                                       andHttpMethod:@"POST"
                                         andDelegate:delegate];

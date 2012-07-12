@@ -19,6 +19,8 @@ typedef enum {
     FACEBOOK_LOGIN = 5,
     FACEBOOK_AUTHORIZE = 6,
     FACEBOOK_USERINFO = 7,
+    FACEBOOK_CREATE_ALBUM = 8,
+
     FACEBOOK_OP_NONE = 100
 } FACEBOOK_OP;
 
@@ -49,8 +51,13 @@ typedef enum {
  */
 + (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks;
 
+/**
+ * Upload photo data to an existing album with album id
+ */
++ (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks albumId:(NSString*) albumId;
+
 /*
- * Upload photo data to album
+ * Upload photo data to facebook app's default album
  */
 + (void) uploadPhotoDataToAlbum: (NSData*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks;
 
@@ -71,4 +78,7 @@ typedef enum {
                             fileName: (NSString*)fileName;
 
 +(void) getUserInfo: (id<FBRequestDelegate>) delegate;
+
++(void) createAlbum:(id<FBRequestDelegate>) delegate name:(NSString*) name desc:(NSString*) desc location:(NSString*) location;
+
 @end
