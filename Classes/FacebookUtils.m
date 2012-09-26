@@ -7,7 +7,6 @@
 //
 
 #import "FacebookUtils.h"
-#import "SBJSON.h"
 
 @implementation FacebookUtils
 static FacebookUtils *sharedInstance;
@@ -205,10 +204,10 @@ static FacebookUtils *sharedInstance;
     if (friendID == nil) {
         return;
     }
-    
-    SBJSON *jsonWriter = [[SBJSON new] autorelease];
-                               
-    NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
+        
+    NSError *e = nil;
+    NSString *actionLinksStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:actionLinks options:0 error:&e] encoding:NSUTF8StringEncoding];
+
     // The "to" parameter targets the post to a friend
     NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:params];
     [allParams setObject:friendID forKey:@"to"];
@@ -225,9 +224,10 @@ static FacebookUtils *sharedInstance;
     if (!albumId) {
         return;
     }
-    SBJSON *jsonWriter = [[SBJSON new] autorelease];
     
-    NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
+    NSError *e = nil;
+    NSString *actionLinksStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:actionLinks options:0 error:&e] encoding:NSUTF8StringEncoding];
+    
     // The "to" parameter targets the post to a friend
     NSMutableDictionary *allParams = [[NSMutableDictionary alloc]initWithDictionary:params];//no autorelease, facebook SDK will release it
     [allParams setObject:image forKey:@"picture"];
@@ -243,9 +243,9 @@ static FacebookUtils *sharedInstance;
  * Upload photo to album
  */
 + (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks {
-    SBJSON *jsonWriter = [[SBJSON new] autorelease];
+    NSError *e = nil;
+    NSString *actionLinksStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:actionLinks options:0 error:&e] encoding:NSUTF8StringEncoding];
     
-    NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
     // The "to" parameter targets the post to a friend
     NSMutableDictionary *allParams = [[NSMutableDictionary alloc]initWithDictionary:params];//no autorelease, facebook SDK will release it
     [allParams setObject:image forKey:@"picture"];
@@ -261,9 +261,9 @@ static FacebookUtils *sharedInstance;
  * Upload photo to album
  */
 + (void) uploadPhotoDataToAlbum: (NSData*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks {
-    SBJSON *jsonWriter = [[SBJSON new] autorelease];
+    NSError *e = nil;
+    NSString *actionLinksStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:actionLinks options:0 error:&e] encoding:NSUTF8StringEncoding];
     
-    NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
     // The "to" parameter targets the post to a friend
     NSMutableDictionary *allParams = [[NSMutableDictionary alloc]initWithDictionary:params];//no autorelease, facebook SDK will release it
     [allParams setObject:image forKey:@"picture"];
