@@ -67,6 +67,8 @@
             uid = [(NSNumber*) uid stringValue];
         }
         
+        NSString* username = [friend objectForKey:@"username"];
+        
         if (first_name == nil || (NSNull*) first_name == [NSNull null] ||
             last_name == nil || (NSNull*) last_name == [NSNull null] ||
             uid == nil || (NSNull*) uid == [NSNull null]) {
@@ -79,6 +81,7 @@
 		aPerson.identifier = uid;
 		aPerson.firstName = first_name;
 		aPerson.lastName = last_name;
+        aPerson.fbUserName = username;
 		aPerson.knownBirthYear = knownBirthYear;
 		
         // Must be the last one to set
@@ -88,7 +91,7 @@
             aPerson.imageURL = pic_url;
 		}
 		
-		NSLog(@"Add people with name: %@ %@, Birthday: %@", first_name, last_name, birthday_date);
+		NSLog(@"Found facebook people with name: %@ %@, Birthday: %@", first_name, last_name, birthday_date);
 		
 		[newPeopleArray addObject:aPerson];//add to a collection for updating UI
 	}

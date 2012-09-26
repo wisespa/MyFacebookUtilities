@@ -77,7 +77,7 @@
   FriendsRequestResult *friendsRequestResult = 
     [[[[FriendsRequestResult alloc] initializeWithDelegate:self] autorelease] retain];
    
-  NSString *query = @"SELECT first_name, last_name, birthday_date, pic, uid FROM user WHERE uid IN (";
+  NSString *query = @"SELECT first_name, last_name, birthday_date, pic, uid, username FROM user WHERE uid IN (";
   query = [query stringByAppendingFormat:@"SELECT uid2 FROM friend WHERE uid1 = %@)", _uid];
   NSMutableDictionary * params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                   query, @"query",
