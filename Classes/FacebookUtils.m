@@ -218,6 +218,37 @@ static FacebookUtils *sharedInstance;
 }
 
 /*
+ * Dialog: request a message to friends
+ */
++ (void) dialogFriendRequest:(NSArray*) friendIDs delegate: (id<FBDialogDelegate>) delegate params: (NSDictionary *) params {
+    if (friendIDs == nil || [friendIDs count] == 0) {
+        return;
+    }
+    
+    NSMutableArray* theIDs;
+
+    if ([friendIDs count] > 50) {
+        theIDs = [NSMutableArray arrayWithCapacity:50];//maximum is 50
+        for(int i = 0; i < 50; i++) {
+            theIDs[i] = friendIDs[i];
+        }
+    } else {
+        theIDs = [NSMutableArray arrayWithArray:friendIDs];
+    }
+    
+    NSError *e = nil;
+    NSString *friendIdsStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:theIDs options:0 error:&e] encoding:NSUTF8StringEncoding];
+
+    DLog(@"Friends Ids: %@", friendIdsStr);
+    
+    // The "to" parameter targets the post to a friend
+    NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:params];
+    [allParams setObject:friendIdsStr forKey:@"to"];    
+    
+    [[sharedInstance facebook] dialog:@"apprequests" andParams:allParams andDelegate:delegate];
+}
+
+/*
  * Upload photo to album
  */
 + (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks albumId:(NSString*) albumId{

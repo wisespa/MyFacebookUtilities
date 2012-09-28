@@ -47,6 +47,11 @@ typedef enum {
 + (void) dialogFeedFriend:(NSString*) friendID delegate: (id<FBDialogDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks;
 
 /*
+ * Dialog: request a message to friends
+ */
++ (void) dialogFriendRequest:(NSArray*) friendIDs delegate: (id<FBDialogDelegate>) delegate params: (NSDictionary *) params;
+
+/*
  * Upload photo to album
  */
 + (void) uploadPhotoToAlbum: (UIImage*) image delegate: (id<FBRequestDelegate>) delegate params: (NSDictionary *) params actionLinks: (NSArray*) actionLinks;
