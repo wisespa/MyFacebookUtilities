@@ -161,14 +161,14 @@ static FacebookUtils *sharedInstance;
 - (void) addLister: (id<FBSessionDelegate>) listener {
     if (listener != nil) {
         [listeners addObject:listener];
-        NSLog(@"Facebook listener added");
+        DLog(@"Facebook listener added");
     }
 }
 
 - (void) removeLister: (id<FBSessionDelegate>) listener {
     if (listener != nil) {
         [listeners removeObject:listener];
-        NSLog(@"Facebook listener removed");
+        DLog(@"Facebook listener removed");
     }
 }
 
