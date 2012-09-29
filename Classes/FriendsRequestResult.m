@@ -22,7 +22,7 @@
 
 - (NSMutableArray*) parsePeople: (NSArray*) users
 {
-	NSLog(@"Start parsing downloaded facebook info");
+	DLog(@"Start parsing downloaded facebook info");
 		
 	NSMutableArray* newPeopleArray = [NSMutableArray array];
 
@@ -91,12 +91,12 @@
             aPerson.imageURL = pic_url;
 		}
 		
-		NSLog(@"Found facebook people with name: %@ %@, Birthday: %@", first_name, last_name, birthday_date);
+		DLog(@"Found facebook people with name: %@ %@, Birthday: %@", first_name, last_name, birthday_date);
 		
 		[newPeopleArray addObject:aPerson];//add to a collection for updating UI
 	}
 	
-	NSLog(@"Done parsing downloaded facebook info and saved to DB");
+	DLog(@"Done parsing downloaded facebook info and saved to DB");
 
 	return newPeopleArray;
 }

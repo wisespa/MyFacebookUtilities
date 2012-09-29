@@ -238,8 +238,6 @@ static FacebookUtils *sharedInstance;
     
     NSError *e = nil;
     NSString *friendIdsStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:theIDs options:0 error:&e] encoding:NSUTF8StringEncoding];
-
-    DLog(@"Friends Ids: %@", friendIdsStr);
     
     // The "to" parameter targets the post to a friend
     NSMutableDictionary *allParams = [NSMutableDictionary dictionaryWithDictionary:params];
