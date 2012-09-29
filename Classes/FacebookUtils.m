@@ -123,7 +123,7 @@ static FacebookUtils *sharedInstance;
 }
 
 -(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSLog(@"token extended");
+    DLog(@"token extended");
     [self storeAuthData:accessToken expiresAt:expiresAt];
 }
 
