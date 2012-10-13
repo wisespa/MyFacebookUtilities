@@ -81,9 +81,12 @@
 		aPerson.identifier = uid;
 		aPerson.firstName = first_name;
 		aPerson.lastName = last_name;
-        aPerson.fbUserName = username;
 		aPerson.knownBirthYear = knownBirthYear;
-		
+        //must check username with empty string
+		if (username != nil && username.length > 0) {
+            aPerson.fbUserName = username;
+        }
+        
         // Must be the last one to set
         [aPerson setGregorianBirthday:birthday];
 		
@@ -91,7 +94,7 @@
             aPerson.imageURL = pic_url;
 		}
 		
-		DLog(@"Found facebook people with name: %@ %@, Birthday: %@", first_name, last_name, birthday_date);
+		DLog(@"Found facebook people with name: %@ %@, Birthday: %@, ID: %@, Username: %@", first_name, last_name, birthday_date, uid, username);
 		
 		[newPeopleArray addObject:aPerson];//add to a collection for updating UI
 	}

@@ -32,6 +32,7 @@
 - (void)request:(FBRequest*)request didLoad:(id)result{
     /** The result could be empty string */
     if (result == nil || [result isKindOfClass:[NSString class]]) {
+        NSLog(@"Get null result when requesting user");
         [_userRequestDelegate userRequestFailed];
         return;
     }
